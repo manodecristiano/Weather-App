@@ -23,7 +23,7 @@ const Page = () => {
             {/* Form */}
              {!isLoading &&< Form submitSearch={onSubmit} />}
               {/* Error */}
-              {isError && <Error message={isError}/> }
+              {isError && <Error message={isError} /> }
               {/* Loader */}
               {isLoading && <Loader /> }
               </div>

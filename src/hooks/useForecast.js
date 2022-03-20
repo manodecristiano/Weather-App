@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
+import getCurrentDayForecast from '../helpers/getCurrentDayForecast';
+import getUpcomingDaysForecast from '../helpers/getUpcomingDaysForecast';
+import getCurrentDayDetailedForecast from '../helpers/getCurrentDayDetailedForecast';
 
 const BASE_URL = 'https://www.metaweather.com/api/location';
 const CROSS_DOMAIN = 'https://the-ultimate-api-challenge.herokuapp.com';
@@ -16,10 +19,11 @@ const useForecast = () => {
 
         if (!data || data.length === 0) {
             setError('There is no such location');
+            setLoading(false);
             return;
         }
 
-        return data;
+        return data[0];
     };
 
     const getForecastData = async woeid => {
@@ -27,18 +31,31 @@ const useForecast = () => {
 
         if (!data || data.length === 0) {
             setError('Something went wrong');
+            setLoading(false);
             return;
         }
 
         return data;
     };
 
-    //call the API
+    const gatherForecastData = data => {
+        const currentDay = getCurrentDayForecast(data.consolidated_weather[0], data.title);
+        const currentDayDetails = getCurrentDayDetailedForecast(data.consolidated_weather[0]);
+        const comingDays = getUpcomingDaysForecast(data.consolidated_weather);
+        setForecast({ currentDay, currentDayDetails, comingDays });
+        setLoading(false);
+    };
+
     const submitRequest = async location => {
-        
+        setLoading(true);
+        setError(false);
         const response = await getWoeid(location);
-        const data = await getForecastData(response[0].woeid);
-        console.log({ data });
+        if (!response?.woeid) return;
+
+        const data = await getForecastData(response.woeid);
+        if (!data) return;
+        
+        gatherForecastData(data);
     };
 
     return {

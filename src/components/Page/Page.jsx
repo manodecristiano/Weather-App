@@ -31,8 +31,9 @@ const Page = () => {
             )}
               {/* Forecast */}
               {forecast && <Forecast forecast={forecast}/> }
-            
+              <input className={`${styles.button} position-relative`}type="button" value="Actualitzar" onClick={() => window.location.reload(false)}/>
         </Fragment>
+        
     );
 };
 

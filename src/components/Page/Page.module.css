@@ -12,3 +12,19 @@
     max-width: 675px;
     min-height: 300px;
 }
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: var(--main-border-radius);
+
+    box-shadow: 0 0 24px 7px rgba(0, 0, 0, 0.2);
+    background-color: var(--bg-color--card);
+    color: whitesmoke;
+
+    width: 155%;
+    max-width: 155px;
+    min-height: 50px;
+}
